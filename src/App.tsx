@@ -8,28 +8,31 @@ import { Stats, Header, Chart } from './features';
 const App = () => {
     const [currentIndex, setCurrentIndex] = useState(0),
         { data } = useStats(),
-        sortedData =
-            data?.sort((a, b) => b.ProcessEpoch - a.ProcessEpoch) ?? [],
-        parsedData = sortedData.map((item, i) => ({
+        parsedData = sortedUniqBy(
+            data?.map((item) => ({
+                ...item,
+                displayDate: format(new Date(item.ProcessEpoch), 'P'),
+            })) ?? [],
+            (item) => item.displayDate
+        ),
+        statData = parsedData.map((item, i) => ({
             ...item,
             varPending:
-                item.Pending - (sortedData?.[i + 1]?.Pending ?? item.Pending),
+                item.Pending - (parsedData?.[i + 1]?.Pending ?? item.Pending),
             varAccepted:
                 item.Accepted -
-                (sortedData?.[i + 1]?.Accepted ?? item.Accepted),
+                (parsedData?.[i + 1]?.Accepted ?? item.Accepted),
             varRejected:
                 item.Rejected -
-                (sortedData?.[i + 1]?.Rejected ?? item.Rejected),
+                (parsedData?.[i + 1]?.Rejected ?? item.Rejected),
         })),
-        chartData = sortedUniqBy(
-            parsedData.map((item, i) => ({
+        chartData = parsedData
+            .map((item, i) => ({
                 ...item,
                 dataIndex: i,
-                displayDate: format(new Date(item.ProcessEpoch), 'P'),
-            })),
-            (item) => item.displayDate
-        ).sort((a, b) => a.ProcessEpoch - b.ProcessEpoch),
-        selectedData = parsedData?.[currentIndex] ?? {};
+            }))
+            .sort((a, b) => a.ProcessEpoch - b.ProcessEpoch),
+        selectedData = statData?.[currentIndex] ?? {};
 
     const handleMouseOver = (payload: any) => {
         setCurrentIndex(payload?.activePayload?.[0]?.payload?.dataIndex ?? 0);
