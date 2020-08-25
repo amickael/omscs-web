@@ -46,7 +46,11 @@ const App = () => {
                 </Header>
                 <Stats data={selectedData} />
             </Stack>
-            <Chart data={chartData} onMouseOver={handleMouseOver} />
+            <Chart
+                data={chartData}
+                onMouseOver={handleMouseOver}
+                onMouseOut={() => setCurrentIndex(0)}
+            />
         </Stack>
     );
 };

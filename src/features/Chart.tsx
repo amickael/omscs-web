@@ -19,9 +19,10 @@ interface ExtendedStatistic extends Statistic {
 interface ChartProps {
     data: ExtendedStatistic[];
     onMouseOver: (payload: any) => void;
+    onMouseOut: () => void;
 }
 
-const Chart = ({ data, onMouseOver }: ChartProps) => {
+const Chart = ({ data, onMouseOver, onMouseOut }: ChartProps) => {
     const theme = useTheme(),
         { colorMode } = useColorMode(),
         bgColor = {
@@ -39,6 +40,7 @@ const Chart = ({ data, onMouseOver }: ChartProps) => {
                 <BarChart
                     data={data}
                     onMouseOver={onMouseOver}
+                    onMouseOut={onMouseOut}
                     maxBarSize={100}
                 >
                     <XAxis
