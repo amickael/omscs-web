@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
     Stat,
     StatLabel,
@@ -14,8 +14,7 @@ import { useStats } from './api';
 import { format } from 'date-fns';
 
 const App = () => {
-    const dataIndex = useState(0),
-        { data } = useStats(),
+    const { data } = useStats(),
         sortedData =
             data?.sort((a, b) => b.ProcessEpoch - a.ProcessEpoch) ?? [],
         parsedData = sortedData.map((item, i) => ({
@@ -29,7 +28,7 @@ const App = () => {
                 item.Rejected -
                 (sortedData?.[i + 1]?.Rejected ?? item.Rejected),
         })),
-        selectedData = parsedData?.[dataIndex] ?? {};
+        selectedData = parsedData?.[0] ?? {};
 
     return (
         <Stack align="center">
