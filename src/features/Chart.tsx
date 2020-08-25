@@ -26,12 +26,12 @@ const Chart = ({ data, onMouseOver, onMouseOut }: ChartProps) => {
     const theme = useTheme(),
         { colorMode } = useColorMode(),
         bgColor = {
-            light: theme.colors.gray[100],
+            light: theme.colors.gray[50],
             dark: theme.colors.gray[900],
         },
         textColor = {
-            light: theme.colors.gray[900],
-            dark: theme.colors.gray[100],
+            light: theme.colors.gray[800],
+            dark: theme.colors.gray[200],
         };
 
     return (
@@ -47,8 +47,13 @@ const Chart = ({ data, onMouseOver, onMouseOut }: ChartProps) => {
                         dataKey="displayDate"
                         tickLine={false}
                         interval="preserveStartEnd"
+                        stroke={textColor[colorMode]}
                     />
-                    <YAxis tickLine={false} width={35} />
+                    <YAxis
+                        tickLine={false}
+                        width={35}
+                        stroke={textColor[colorMode]}
+                    />
                     <Tooltip
                         separator=": "
                         cursor={{
@@ -58,6 +63,7 @@ const Chart = ({ data, onMouseOver, onMouseOut }: ChartProps) => {
                             backgroundColor: bgColor[colorMode],
                             color: textColor[colorMode],
                             borderColor: textColor[colorMode],
+                            fontWeight: 600,
                             borderRadius: 5,
                             minWidth: 200,
                         }}
@@ -66,17 +72,17 @@ const Chart = ({ data, onMouseOver, onMouseOut }: ChartProps) => {
                     <Bar
                         dataKey="Rejected"
                         stackId="a"
-                        fill={theme.colors.red[500]}
+                        fill={theme.colors.red[400]}
                     />
                     <Bar
                         dataKey="Accepted"
                         stackId="a"
-                        fill={theme.colors.green[500]}
+                        fill={theme.colors.green[400]}
                     />
                     <Bar
                         dataKey="Pending"
                         stackId="a"
-                        fill={theme.colors.blue[500]}
+                        fill={theme.colors.blue[400]}
                     />
                 </BarChart>
             </ResponsiveContainer>

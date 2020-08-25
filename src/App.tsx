@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { Stack } from '@chakra-ui/core';
+import { Stack, Button } from '@chakra-ui/core';
 import { useStats } from './api';
 import { format } from 'date-fns';
 import sortedUniqBy from 'lodash/sortedUniqBy';
 import { Stats, Header, Chart } from './features';
+import Papa from 'papaparse';
 
 const App = () => {
     const [currentIndex, setCurrentIndex] = useState(0),
@@ -35,8 +36,29 @@ const App = () => {
         selectedData = statData?.[currentIndex] ?? {};
 
     const handleMouseOver = (payload: any) => {
-        setCurrentIndex(payload?.activePayload?.[0]?.payload?.dataIndex ?? 0);
-    };
+            setCurrentIndex(
+                payload?.activePayload?.[0]?.payload?.dataIndex ?? 0
+            );
+        },
+        handleDownload = () => {
+            const dataString = Papa.unparse(
+                    data?.map((item) => ({
+                        Matriculation: item.Matriculation,
+                        Timestamp: item.ProcessEpoch,
+                        Pending: item.Pending,
+                        Accepted: item.Accepted,
+                        Rejected: item.Rejected,
+                    })) ?? []
+                ),
+                dataUri = `data:text/csv;charset=utf-8,${dataString}`,
+                el = document.createElement('a');
+            el.setAttribute('style', 'display: none');
+            el.setAttribute('href', dataUri);
+            el.setAttribute('download', 'omscs-data.csv');
+            document.body.appendChild(el);
+            el.click();
+            document.body.removeChild(el);
+        };
 
     return (
         <Stack align="center">
@@ -51,6 +73,16 @@ const App = () => {
                 onMouseOver={handleMouseOver}
                 onMouseOut={() => setCurrentIndex(0)}
             />
+            <Button
+                size="sm"
+                onClick={handleDownload}
+                marginTop={5}
+                aria-label="download"
+                isDisabled={!data}
+            >
+                <i className="fas fa-download" />
+                &nbsp;Download Data
+            </Button>
         </Stack>
     );
 };
