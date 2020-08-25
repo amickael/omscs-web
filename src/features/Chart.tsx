@@ -9,6 +9,7 @@ import {
     Legend,
     Bar,
 } from 'recharts';
+import { useMediaQuery } from 'react-responsive';
 import { Statistic } from '../types/Statistic';
 
 interface ExtendedStatistic extends Statistic {
@@ -32,10 +33,11 @@ const Chart = ({ data, onMouseOver, onMouseOut }: ChartProps) => {
         textColor = {
             light: theme.colors.gray[800],
             dark: theme.colors.gray[200],
-        };
+        },
+        isMobile = useMediaQuery({ maxWidth: 640 });
 
     return (
-        <Box width={['100%', '95%']}>
+        <Box width="100%" maxWidth="1000px">
             <ResponsiveContainer width="100%" height={350}>
                 <BarChart
                     data={data}
@@ -53,6 +55,7 @@ const Chart = ({ data, onMouseOver, onMouseOut }: ChartProps) => {
                         }}
                     />
                     <YAxis
+                        hide={isMobile}
                         tickLine={false}
                         width={35}
                         stroke={textColor[colorMode]}
