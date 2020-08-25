@@ -1,20 +1,13 @@
-import React from 'react';
-import {
-    Stat,
-    StatLabel,
-    StatNumber,
-    StatHelpText,
-    StatArrow,
-    StatGroup,
-    Stack,
-    Heading,
-    Text,
-} from '@chakra-ui/core';
+import React, { useState } from 'react';
+import { Stack } from '@chakra-ui/core';
 import { useStats } from './api';
 import { format } from 'date-fns';
+import sortedUniqBy from 'lodash/sortedUniqBy';
+import { Stats, Header, Chart } from './features';
 
 const App = () => {
-    const { data } = useStats(),
+    const [currentIndex, setCurrentIndex] = useState(0),
+        { data } = useStats(),
         sortedData =
             data?.sort((a, b) => b.ProcessEpoch - a.ProcessEpoch) ?? [],
         parsedData = sortedData.map((item, i) => ({
@@ -28,66 +21,29 @@ const App = () => {
                 item.Rejected -
                 (sortedData?.[i + 1]?.Rejected ?? item.Rejected),
         })),
-        selectedData = parsedData?.[0] ?? {};
+        chartData = sortedUniqBy(
+            parsedData.map((item, i) => ({
+                ...item,
+                dataIndex: i,
+                displayDate: format(new Date(item.ProcessEpoch), 'P'),
+            })),
+            (item) => item.displayDate
+        ).sort((a, b) => a.ProcessEpoch - b.ProcessEpoch),
+        selectedData = parsedData?.[currentIndex] ?? {};
+
+    const handleMouseOver = (payload: any) => {
+        setCurrentIndex(payload?.activePayload?.[0]?.payload?.dataIndex ?? 0);
+    };
 
     return (
         <Stack align="center">
             <Stack width={['90%', '50%', '35%']} justify="center" paddingY={10}>
-                <Heading as="h3" size="lg">
-                    Georgia Tech OMSCS Decisions
-                </Heading>
-                <Text fontSize="lg" paddingBottom={2}>
-                    Spring 2021
-                </Text>
-                <StatGroup justify="centr">
-                    <Stat>
-                        <StatLabel>Pending</StatLabel>
-                        <StatNumber>{selectedData.Pending}</StatNumber>
-                        <StatHelpText>
-                            <StatArrow
-                                type={
-                                    selectedData.varPending >= 0
-                                        ? 'increase'
-                                        : 'decrease'
-                                }
-                            />
-                            {selectedData.varPending}
-                        </StatHelpText>
-                    </Stat>
-                    <Stat>
-                        <StatLabel>Accepted</StatLabel>
-                        <StatNumber>{selectedData.Accepted}</StatNumber>
-                        <StatHelpText>
-                            <StatArrow
-                                type={
-                                    selectedData.varAccepted >= 0
-                                        ? 'increase'
-                                        : 'decrease'
-                                }
-                            />
-                            {selectedData.varAccepted}
-                        </StatHelpText>
-                    </Stat>
-                    <Stat>
-                        <StatLabel>Rejected</StatLabel>
-                        <StatNumber>{selectedData.Rejected}</StatNumber>
-                        <StatHelpText>
-                            <StatArrow
-                                type={
-                                    selectedData.varRejected >= 0
-                                        ? 'increase'
-                                        : 'decrease'
-                                }
-                            />
-                            {selectedData.varRejected}
-                        </StatHelpText>
-                    </Stat>
-                </StatGroup>
-                <StatHelpText>
-                    As of{' '}
-                    {format(new Date(selectedData.ProcessEpoch ?? 0), 'PPPpp')}
-                </StatHelpText>
+                <Header heading="Georgia Tech OMSCS Decisions">
+                    {selectedData?.Matriculation ?? ''}
+                </Header>
+                <Stats data={selectedData} />
             </Stack>
+            <Chart data={chartData} onMouseOver={handleMouseOver} />
         </Stack>
     );
 };

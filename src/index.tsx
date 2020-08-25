@@ -7,7 +7,7 @@ import {
     CSSReset,
 } from '@chakra-ui/core';
 import App from './App';
-import { Footer } from './features/Footer';
+import { Footer } from './features';
 import * as serviceWorker from './serviceWorker';
 
 ReactDOM.render(
