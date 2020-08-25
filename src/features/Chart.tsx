@@ -48,11 +48,17 @@ const Chart = ({ data, onMouseOver, onMouseOut }: ChartProps) => {
                         tickLine={false}
                         interval="preserveStartEnd"
                         stroke={textColor[colorMode]}
+                        tick={{
+                            fontSize: '0.9rem',
+                        }}
                     />
                     <YAxis
                         tickLine={false}
                         width={35}
                         stroke={textColor[colorMode]}
+                        tick={{
+                            fontSize: '0.9rem',
+                        }}
                     />
                     <Tooltip
                         separator=": "
