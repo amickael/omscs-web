@@ -34,7 +34,7 @@ const Stats = ({ data }: StatsProps) => {
                                 data.varPending >= 0 ? 'increase' : 'decrease'
                             }
                         />
-                        {data.varPending}
+                        {Math.abs(data.varPending)}
                     </StatHelpText>
                 </Stat>
                 <Stat>
@@ -46,7 +46,7 @@ const Stats = ({ data }: StatsProps) => {
                                 data.varAccepted >= 0 ? 'increase' : 'decrease'
                             }
                         />
-                        {data.varAccepted}
+                        {Math.abs(data.varAccepted)}
                     </StatHelpText>
                 </Stat>
                 <Stat>
@@ -58,7 +58,7 @@ const Stats = ({ data }: StatsProps) => {
                                 data.varRejected >= 0 ? 'increase' : 'decrease'
                             }
                         />
-                        {data.varRejected}
+                        {Math.abs(data.varRejected)}
                     </StatHelpText>
                 </Stat>
             </StatGroup>
