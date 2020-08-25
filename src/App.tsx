@@ -14,7 +14,7 @@ import { useStats } from './api';
 import { format } from 'date-fns';
 
 const App = () => {
-    const [dataIndex, setDataIndex] = useState(0),
+    const dataIndex = useState(0),
         { data } = useStats(),
         sortedData =
             data?.sort((a, b) => b.ProcessEpoch - a.ProcessEpoch) ?? [],
