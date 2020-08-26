@@ -39,7 +39,7 @@ const Stats = ({ data }: StatsProps) => {
             borderRadius={5}
         >
             <StatGroup>
-                <Stat>
+                <Stat display="flex" flexDirection="column" alignItems="center">
                     <StatLabel>Pending</StatLabel>
                     <StatNumber>{data.Pending}</StatNumber>
                     <StatHelpText>
@@ -51,7 +51,7 @@ const Stats = ({ data }: StatsProps) => {
                         {Math.abs(data.varPending)}
                     </StatHelpText>
                 </Stat>
-                <Stat>
+                <Stat display="flex" flexDirection="column" alignItems="center">
                     <StatLabel>Accepted</StatLabel>
                     <StatNumber>{data.Accepted}</StatNumber>
                     <StatHelpText>
@@ -63,7 +63,7 @@ const Stats = ({ data }: StatsProps) => {
                         {Math.abs(data.varAccepted)}
                     </StatHelpText>
                 </Stat>
-                <Stat>
+                <Stat display="flex" flexDirection="column" alignItems="center">
                     <StatLabel>Rejected</StatLabel>
                     <StatNumber>{data.Rejected}</StatNumber>
                     <StatHelpText>
@@ -76,7 +76,7 @@ const Stats = ({ data }: StatsProps) => {
                     </StatHelpText>
                 </Stat>
             </StatGroup>
-            <StatHelpText>
+            <StatHelpText alignSelf="center">
                 As of {format(new Date(data.ProcessEpoch ?? 0), 'PPPp')}
             </StatHelpText>
         </Stack>
