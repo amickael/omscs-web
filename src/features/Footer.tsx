@@ -1,8 +1,12 @@
 import React from 'react';
-import { Stack, Button, Text, Link, useColorMode } from '@chakra-ui/core';
+import { Stack, Text, Link, IconButton, useColorMode } from '@chakra-ui/core';
 
 const Footer = () => {
-    const { toggleColorMode } = useColorMode();
+    const { colorMode, toggleColorMode } = useColorMode(),
+        modeIcon: { [key in 'light' | 'dark']: 'moon' | 'sun' } = {
+            light: 'moon',
+            dark: 'sun',
+        };
 
     return (
         <Stack
@@ -12,13 +16,13 @@ const Footer = () => {
             width="100%"
             height="100%"
         >
-            <Button
-                size="sm"
-                aria-label="toggle-theme"
+            <IconButton
+                aria-label="toggle theme"
+                icon={modeIcon[colorMode]}
                 onClick={toggleColorMode}
-            >
-                <i className="fas fa-adjust" />
-            </Button>
+                children={null}
+                isRound
+            />
             <Stack isInline>
                 <Link
                     fontSize="sm"
