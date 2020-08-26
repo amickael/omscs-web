@@ -1,5 +1,14 @@
 import React, { useState } from 'react';
-import { Flex, Stack, Button } from '@chakra-ui/core';
+import {
+    Flex,
+    Stack,
+    Button,
+    Spinner,
+    Alert,
+    AlertIcon,
+    AlertTitle,
+    AlertDescription,
+} from '@chakra-ui/core';
 import { useStats } from './api';
 import { format } from 'date-fns';
 import sortedUniqBy from 'lodash/sortedUniqBy';
@@ -8,7 +17,7 @@ import Papa from 'papaparse';
 
 const App = () => {
     const [currentIndex, setCurrentIndex] = useState(0),
-        { data } = useStats(),
+        { data, isLoading, isError } = useStats(),
         parsedData = sortedUniqBy(
             data?.map((item) => ({
                 ...item,
@@ -51,6 +60,32 @@ const App = () => {
             el.click();
             document.body.removeChild(el);
         };
+
+    if (isLoading) {
+        return <Spinner size="xl" marginTop="25vh" alignSelf="center" />;
+    }
+
+    if (isError) {
+        return (
+            <Alert
+                status="error"
+                variant="subtle"
+                flexDirection="column"
+                justifyContent="center"
+                textAlign="center"
+                height="200px"
+                marginTop="25vh"
+            >
+                <AlertIcon size="40px" mr={0} />
+                <AlertTitle mt={4} mb={1} fontSize="lg">
+                    Error loading data
+                </AlertTitle>
+                <AlertDescription maxWidth="md">
+                    There was a problem loading data, please try again later.
+                </AlertDescription>
+            </Alert>
+        );
+    }
 
     return (
         <Flex justify="center" paddingX={2}>

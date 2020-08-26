@@ -12,6 +12,7 @@ import {
 } from '@chakra-ui/core';
 import { Statistic } from '../types/Statistic';
 import { format } from 'date-fns';
+import { useSpring, animated } from 'react-spring';
 
 interface ExtendedStatistic extends Statistic {
     varPending: number;
@@ -23,13 +24,21 @@ interface StatsProps {
     data: ExtendedStatistic;
 }
 
+const AnimatedStatNumber = animated(StatNumber);
 const Stats = ({ data }: StatsProps) => {
     const { colorMode } = useColorMode(),
         theme = useTheme(),
         borderColor = {
             light: theme.colors.gray[300],
             dark: theme.colors.gray[600],
-        };
+        },
+        spring = useSpring({
+            from: { pending: 0, accepted: 0, rejected: 0 },
+            pending: data.Pending ?? 0,
+            accepted: data.Accepted ?? 0,
+            rejected: data.Rejected ?? 0,
+            config: { mass: 1, tension: 200, friction: 20, clamp: true },
+        });
 
     return (
         <Stack
@@ -41,7 +50,11 @@ const Stats = ({ data }: StatsProps) => {
             <StatGroup>
                 <Stat display="flex" flexDirection="column" alignItems="center">
                     <StatLabel>Pending</StatLabel>
-                    <StatNumber>{data.Pending}</StatNumber>
+                    <AnimatedStatNumber>
+                        {spring.pending.interpolate((value) =>
+                            Math.round(value)
+                        )}
+                    </AnimatedStatNumber>
                     <StatHelpText>
                         <StatArrow
                             type={
@@ -53,7 +66,11 @@ const Stats = ({ data }: StatsProps) => {
                 </Stat>
                 <Stat display="flex" flexDirection="column" alignItems="center">
                     <StatLabel>Accepted</StatLabel>
-                    <StatNumber>{data.Accepted}</StatNumber>
+                    <AnimatedStatNumber>
+                        {spring.accepted.interpolate((value) =>
+                            Math.round(value)
+                        )}
+                    </AnimatedStatNumber>
                     <StatHelpText>
                         <StatArrow
                             type={
@@ -65,7 +82,11 @@ const Stats = ({ data }: StatsProps) => {
                 </Stat>
                 <Stat display="flex" flexDirection="column" alignItems="center">
                     <StatLabel>Rejected</StatLabel>
-                    <StatNumber>{data.Rejected}</StatNumber>
+                    <AnimatedStatNumber>
+                        {spring.rejected.interpolate((value) =>
+                            Math.round(value)
+                        )}
+                    </AnimatedStatNumber>
                     <StatHelpText>
                         <StatArrow
                             type={
