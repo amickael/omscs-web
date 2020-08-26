@@ -77,7 +77,7 @@ const Stats = ({ data }: StatsProps) => {
                 </Stat>
             </StatGroup>
             <StatHelpText alignSelf="center">
-                As of {format(new Date(data.ProcessEpoch ?? 0), 'PPPp')}
+                As of {format(new Date(data.Timestamp ?? 0), 'PPPp')}
             </StatHelpText>
         </Stack>
     );

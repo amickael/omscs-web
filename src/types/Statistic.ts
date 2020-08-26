@@ -1,6 +1,6 @@
 export interface Statistic {
     Matriculation: string;
-    ProcessEpoch: number;
+    Timestamp: number;
     Pending: number;
     Accepted: number;
     Rejected: number;

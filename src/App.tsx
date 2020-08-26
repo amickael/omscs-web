@@ -12,7 +12,7 @@ const App = () => {
         parsedData = sortedUniqBy(
             data?.map((item) => ({
                 ...item,
-                displayDate: format(new Date(item.ProcessEpoch), 'P'),
+                displayDate: format(new Date(item.Timestamp), 'P'),
             })) ?? [],
             (item) => item.displayDate
         ),
@@ -32,7 +32,7 @@ const App = () => {
                 ...item,
                 dataIndex: i,
             }))
-            .sort((a, b) => a.ProcessEpoch - b.ProcessEpoch),
+            .sort((a, b) => a.Timestamp - b.Timestamp),
         selectedData = statData?.[currentIndex] ?? {};
 
     const handleMouseOver = (payload: any) => {
@@ -41,15 +41,7 @@ const App = () => {
             );
         },
         handleDownload = () => {
-            const dataString = Papa.unparse(
-                    data?.map((item) => ({
-                        Matriculation: item.Matriculation,
-                        Timestamp: item.ProcessEpoch,
-                        Pending: item.Pending,
-                        Accepted: item.Accepted,
-                        Rejected: item.Rejected,
-                    })) ?? []
-                ),
+            const dataString = Papa.unparse(data ?? [], { newline: '\r\n' }),
                 dataUri = `data:text/csv;charset=utf-8,${dataString}`,
                 el = document.createElement('a');
             el.setAttribute('style', 'display: none');
