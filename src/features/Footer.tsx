@@ -10,7 +10,8 @@ const Footer = () => {
 
     return (
         <Stack
-            paddingY={3}
+            marginBottom={3}
+            marginTop="10vh"
             align="center"
             justify="flex-end"
             width="100%"
@@ -38,6 +39,14 @@ const Footer = () => {
                     href="https://github.com/amickael/omscs-web"
                 >
                     <i className="fab fa-github" /> GitHub
+                </Link>
+                <Text fontSize="sm">&bull;</Text>
+                <Link
+                    fontSize="sm"
+                    isExternal
+                    href="https://stats.uptimerobot.com/ypNE4TNAnP"
+                >
+                    <i className="fas fa-heart-rate" /> System Status
                 </Link>
             </Stack>
         </Stack>
