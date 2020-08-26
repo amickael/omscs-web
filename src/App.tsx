@@ -8,6 +8,9 @@ import {
     AlertIcon,
     AlertTitle,
     AlertDescription,
+    Box,
+    useTheme,
+    useColorMode,
 } from '@chakra-ui/core';
 import { useStats } from './api';
 import { format } from 'date-fns';
@@ -16,7 +19,17 @@ import { Stats, Header, Chart } from './features';
 import Papa from 'papaparse';
 
 const App = () => {
-    const [currentIndex, setCurrentIndex] = useState(0),
+    const theme = useTheme(),
+        { colorMode } = useColorMode(),
+        bgColor = {
+            light: theme.colors.gray[50],
+            dark: theme.colors.gray[900],
+        },
+        borderColor = {
+            light: theme.colors.gray[300],
+            dark: theme.colors.gray[600],
+        },
+        [currentIndex, setCurrentIndex] = useState(0),
         { data, isLoading, isError } = useStats(),
         parsedData = sortedUniqBy(
             data?.map((item) => ({
@@ -88,23 +101,40 @@ const App = () => {
     }
 
     return (
-        <Flex justify="center" paddingX={2}>
+        <Flex justify="center" marginTop={5} paddingX={2}>
             <Stack width="100%" maxWidth="1000px">
-                <Stack paddingY={10}>
+                <Stack>
                     <Header heading="Georgia Tech OMSCS Decisions">
                         {selectedData?.Matriculation ?? ''}
                     </Header>
-                    <Stats data={selectedData} />
+                    <Box
+                        padding={3}
+                        borderColor={borderColor[colorMode]}
+                        borderWidth={2}
+                        borderRadius={5}
+                        backgroundColor={bgColor[colorMode]}
+                    >
+                        <Stats data={selectedData} />
+                    </Box>
                 </Stack>
-                <Chart
-                    data={chartData}
-                    onMouseOver={handleMouseOver}
-                    onMouseOut={() => setCurrentIndex(0)}
-                />
+                <Box
+                    marginTop={3}
+                    padding={1}
+                    borderColor={borderColor[colorMode]}
+                    borderWidth={2}
+                    borderRadius={5}
+                    backgroundColor={bgColor[colorMode]}
+                >
+                    <Chart
+                        data={chartData}
+                        onMouseOver={handleMouseOver}
+                        onMouseOut={() => setCurrentIndex(0)}
+                    />
+                </Box>
                 <Button
+                    marginTop={3}
                     size="sm"
                     onClick={handleDownload}
-                    marginTop={5}
                     aria-label="download"
                     isDisabled={!data}
                     maxWidth={250}

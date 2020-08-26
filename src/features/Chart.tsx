@@ -27,8 +27,8 @@ const Chart = ({ data, onMouseOver, onMouseOut }: ChartProps) => {
     const theme = useTheme(),
         { colorMode } = useColorMode(),
         bgColor = {
-            light: theme.colors.gray[50],
-            dark: theme.colors.gray[900],
+            light: theme.colors.gray[100],
+            dark: theme.colors.gray[800],
         },
         textColor = {
             light: theme.colors.gray[800],

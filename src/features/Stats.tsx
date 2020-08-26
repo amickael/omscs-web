@@ -7,8 +7,6 @@ import {
     StatHelpText,
     StatArrow,
     Stack,
-    useColorMode,
-    useTheme,
 } from '@chakra-ui/core';
 import { Statistic } from '../types/Statistic';
 import { format } from 'date-fns';
@@ -26,27 +24,16 @@ interface StatsProps {
 
 const AnimatedStatNumber = animated(StatNumber);
 const Stats = ({ data }: StatsProps) => {
-    const { colorMode } = useColorMode(),
-        theme = useTheme(),
-        borderColor = {
-            light: theme.colors.gray[300],
-            dark: theme.colors.gray[600],
-        },
-        spring = useSpring({
-            from: { pending: 0, accepted: 0, rejected: 0 },
-            pending: data.Pending ?? 0,
-            accepted: data.Accepted ?? 0,
-            rejected: data.Rejected ?? 0,
-            config: { mass: 1, tension: 200, friction: 20, clamp: true },
-        });
+    const spring = useSpring({
+        from: { pending: 0, accepted: 0, rejected: 0 },
+        pending: data.Pending ?? 0,
+        accepted: data.Accepted ?? 0,
+        rejected: data.Rejected ?? 0,
+        config: { mass: 1, tension: 200, friction: 20, clamp: true },
+    });
 
     return (
-        <Stack
-            padding={3}
-            borderColor={borderColor[colorMode]}
-            borderWidth={2}
-            borderRadius={5}
-        >
+        <Stack>
             <StatGroup>
                 <Stat display="flex" flexDirection="column" alignItems="center">
                     <StatLabel>Pending</StatLabel>
