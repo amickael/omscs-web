@@ -79,9 +79,9 @@ const Chart = ({ data, onMouseOver, onMouseOut }: ChartProps) => {
                     />
                     <Legend />
                     <Bar
-                        dataKey="Rejected"
+                        dataKey="Pending"
                         stackId="a"
-                        fill={theme.colors.red[400]}
+                        fill={theme.colors.blue[400]}
                     />
                     <Bar
                         dataKey="Accepted"
@@ -89,9 +89,9 @@ const Chart = ({ data, onMouseOver, onMouseOut }: ChartProps) => {
                         fill={theme.colors.green[400]}
                     />
                     <Bar
-                        dataKey="Pending"
+                        dataKey="Rejected"
                         stackId="a"
-                        fill={theme.colors.blue[400]}
+                        fill={theme.colors.red[400]}
                     />
                 </BarChart>
             </ResponsiveContainer>
