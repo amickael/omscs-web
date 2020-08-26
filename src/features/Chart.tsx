@@ -84,14 +84,14 @@ const Chart = ({ data, onMouseOver, onMouseOut }: ChartProps) => {
                         fill={theme.colors.blue[400]}
                     />
                     <Bar
-                        dataKey="Accepted"
-                        stackId="a"
-                        fill={theme.colors.green[400]}
-                    />
-                    <Bar
                         dataKey="Rejected"
                         stackId="a"
                         fill={theme.colors.red[400]}
+                    />
+                    <Bar
+                        dataKey="Accepted"
+                        stackId="a"
+                        fill={theme.colors.green[400]}
                     />
                 </BarChart>
             </ResponsiveContainer>
