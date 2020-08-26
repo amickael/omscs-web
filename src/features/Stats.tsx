@@ -7,6 +7,8 @@ import {
     StatHelpText,
     StatArrow,
     Stack,
+    useColorMode,
+    useTheme,
 } from '@chakra-ui/core';
 import { Statistic } from '../types/Statistic';
 import { format } from 'date-fns';
@@ -22,8 +24,20 @@ interface StatsProps {
 }
 
 const Stats = ({ data }: StatsProps) => {
+    const { colorMode } = useColorMode(),
+        theme = useTheme(),
+        borderColor = {
+            light: theme.colors.gray[300],
+            dark: theme.colors.gray[600],
+        };
+
     return (
-        <Stack>
+        <Stack
+            padding={3}
+            borderColor={borderColor[colorMode]}
+            borderWidth={2}
+            borderRadius={5}
+        >
             <StatGroup>
                 <Stat>
                     <StatLabel>Pending</StatLabel>
@@ -63,7 +77,7 @@ const Stats = ({ data }: StatsProps) => {
                 </Stat>
             </StatGroup>
             <StatHelpText>
-                As of {format(new Date(data.ProcessEpoch ?? 0), 'PPPp')}{' '}
+                As of {format(new Date(data.ProcessEpoch ?? 0), 'PPPp')}
             </StatHelpText>
         </Stack>
     );

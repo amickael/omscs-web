@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Stack, Button } from '@chakra-ui/core';
+import { Flex, Stack, Button } from '@chakra-ui/core';
 import { useStats } from './api';
 import { format } from 'date-fns';
 import sortedUniqBy from 'lodash/sortedUniqBy';
@@ -61,29 +61,33 @@ const App = () => {
         };
 
     return (
-        <Stack align="center">
-            <Stack width={['90%', '50%', '35%']} justify="center" paddingY={10}>
-                <Header heading="Georgia Tech OMSCS Decisions">
-                    {selectedData?.Matriculation ?? ''}
-                </Header>
-                <Stats data={selectedData} />
+        <Flex justify="center" paddingX={2}>
+            <Stack width="100%" maxWidth="1000px">
+                <Stack paddingY={10}>
+                    <Header heading="Georgia Tech OMSCS Decisions">
+                        {selectedData?.Matriculation ?? ''}
+                    </Header>
+                    <Stats data={selectedData} />
+                </Stack>
+                <Chart
+                    data={chartData}
+                    onMouseOver={handleMouseOver}
+                    onMouseOut={() => setCurrentIndex(0)}
+                />
+                <Button
+                    size="sm"
+                    onClick={handleDownload}
+                    marginTop={5}
+                    aria-label="download"
+                    isDisabled={!data}
+                    maxWidth={250}
+                    alignSelf="center"
+                >
+                    <i className="fas fa-download" />
+                    &nbsp;Download Data
+                </Button>
             </Stack>
-            <Chart
-                data={chartData}
-                onMouseOver={handleMouseOver}
-                onMouseOut={() => setCurrentIndex(0)}
-            />
-            <Button
-                size="sm"
-                onClick={handleDownload}
-                marginTop={5}
-                aria-label="download"
-                isDisabled={!data}
-            >
-                <i className="fas fa-download" />
-                &nbsp;Download Data
-            </Button>
-        </Stack>
+        </Flex>
     );
 };
 
